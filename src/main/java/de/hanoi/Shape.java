@@ -7,15 +7,56 @@ import java.util.List;
 
 enum Shape {
 
-    CORNER('c', Arrays.asList(
+    ROD('R', Collections.singletonList("@@@@@")),
+    ANGLE('A', Arrays.asList(
             "@@@",
             "@  ",
             "@  "
     )),
-    NOSE('n', Arrays.asList(
-            "@@",
-            "@@",
-            "@ "
+    HOOK('H', Arrays.asList(
+            "@  ",
+            "@@@",
+            "  @"
+    )),
+    LETTER_L('L', Arrays.asList(
+            "@@@@",
+            "@   "
+    )),
+    BATON('B', Arrays.asList(
+            "@@@@",
+            " @  "
+    )),
+    LETTER_T('T', Arrays.asList(
+            "@@@",
+            " @ ",
+            " @ "
+    )),
+    LETTER_W('W', Arrays.asList(
+            "@  ",
+            "@@ ",
+            " @@"
+    )),
+    STAR('+', Arrays.asList(
+            " @ ",
+            "@@@",
+            " @ "
+    )),
+    LETTER_C('C', Arrays.asList(
+            "@@@",
+            "@ @"
+    )),
+    NUMBER_4('4', Arrays.asList(
+            "@  ",
+            "@@@",
+            " @ "
+    )),
+    SNAKE('S', Arrays.asList(
+            "  @@",
+            "@@@ "
+    )),
+    LETTER_P('P', Arrays.asList(
+            "@@@",
+            "@@ "
     ));
 
     private final char signature;
@@ -102,7 +143,7 @@ enum Shape {
         return result;
     }
 
-    private static boolean contains(List<Blob> blobs, Blob test) {
+    static boolean contains(List<Blob> blobs, Blob test) {
         for (Blob blob : blobs) {
             if (Arrays.deepEquals(blob.points(), test.points())) {
                 return true;

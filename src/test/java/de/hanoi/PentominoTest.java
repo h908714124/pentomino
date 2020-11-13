@@ -10,7 +10,7 @@ class PentominoTest {
 
     @Test
     void testPrint() {
-        pentomino.addFigure(Shape.CORNER.getBlob(), 0, 0);
+        pentomino.addFigure(Shape.ANGLE.getBlob(), 0, 0);
         List<String> strings = pentomino.print();
         for (String string : strings) {
             System.out.println(string);

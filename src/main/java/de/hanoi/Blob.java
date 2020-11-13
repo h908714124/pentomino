@@ -47,7 +47,7 @@ class Blob {
         for (boolean[] row : points) {
             StringBuilder sb = new StringBuilder();
             for (boolean b : row) {
-                sb.append(b ? "@" : ".");
+                sb.append(b ? shape.signature() : ".");
             }
             result.add(sb.toString());
         }
