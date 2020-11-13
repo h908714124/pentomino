@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+
+        body {
+            margin: 60px 5px 30px 36px;
+            font-family: 'Open Sans', regular, serif;
+            font-size: 10pt;
+        }
+
+        div.briefkopf {
+            margin-top: 30px;
+        }
+
+        div.briefkopf_links {
+            float: left;
+            width: 320px;
+        }
+
+        div.briefkopf_rechts {
+            float: left;
+        }
+
+        div.briefkopf_rechts .key {
+            float: left;
+            width: 100px;
+            font-size: 8pt;
+        }
+
+        div.briefkopf_rechts .value {
+            float: left;
+            font-size: 8pt;
+        }
+
+        div.briefkopf {
+            clear: both;
+        }
+
+        div.subject {
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        div.brief_koerper {
+            margin-top: 28px;
+        }
+
+        div.brief_koerper .anrede {
+            margin-bottom: 10px;
+        }
+
+        div.brief_koerper .wichtig {
+            margin-top: 14px;
+            margin-bottom: 14px;
+            margin-left: 28px;
+            font-weight: bold;
+        }
+
+        div.im_auftrag {
+            margin-top: 28px;
+        }
+
+        div.unterschrift {
+            margin-top: 42px;
+        }
+
+        div.anlagen .header {
+            margin-top: 28px;
+            font-weight: bold;
+        }
+
+    </style>
+    <title>Übersendung von Akten im Rahmen des Wechsels der Besteuerung</title>
+</head>
+<body>
+
+<div class="absender">
+    <div>${QUELLFINANZAMT_NAME}</div>
+    <div>${QUELLFINANZAMT_STRASSE} ${QUELLFINANZAMT_HAUSNUMMER}</div>
+    <div>${QUELLFINANZAMT_POSTLEITZAHL} ${QUELLFINANZAMT_ORT}</div>
+</div>
+<div class="briefkopf">
+    <div class="briefkopf_links">
+        <div>An das</div>
+        <div>${ZIELFINANZAMT_NAME}</div>
+        <div>${ZIELFINANZAMT_STRASSE} ${ZIELFINANZAMT_HAUSNUMMER}</div>
+        <div>${ZIELFINANZAMT_POSTLEITZAHL} ${ZIELFINANZAMT_ORT}</div>
+    </div>
+    <div class="briefkopf_rechts">
+        <div class="row">
+            <div class="key">Steuernummer</div>
+            <div class="value" style="font-weight: bold">${STEUERNUMMER}</div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="row">
+            <div class="key">Bearbeiter/in</div>
+            <div class="value">${BEARBEITER_NAME}</div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="row">
+            <div class="key">Telefon</div>
+            <div class="value">${BEARBEITER_TELEFON}</div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="row">
+            <div class="key">E-Mail</div>
+            <div class="value">${BEARBEITER_EMAIL}</div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="row">
+            <div class="key">Ihr Zeichen</div>
+            <div class="value">${IHR_ZEICHEN}</div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="row">
+            <div class="key">Datum</div>
+            <div class="value">${DATUM}</div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+<div style="clear:both"></div>
+<div class="subject">
+    Übersendung von Akten im Rahmen des Wechsels der Besteuerung
+</div>
+<div class="brief_koerper">
+    <div class="anrede">
+        Sehr geehrte Damen und Herren,
+    </div>
+    <div>
+        anbei übersende ich Ihnen die für die weitere Besteuerung
+        relevanten Akten für die/den Stpfl.
+    </div>
+    <div class="wichtig">
+        ${STPFL_BEZEICHNUNG}
+    </div>
+    <div>
+        welche bei Ihnen zukünftig unter der Steuernummer
+    </div>
+    <div class="wichtig">
+        ${NEUE_STEUERNUMMER}
+    </div>
+    <div>
+        geführt wird.
+    </div>
+</div>
+<div class="im_auftrag">
+    im Auftrag
+</div>
+<div class="unterschrift">
+    ${BEARBEITER_NAME}
+</div>
+<div class="anlagen">
+    <div class="header">Anlagen:</div>
+    <ul>
+    <#list ANLAGEN as ANLAGE>
+    <li class="anlage">${ANLAGE}</li>
+    </#list>
+    </ul>
+</div>
+</body>
+</html>
+

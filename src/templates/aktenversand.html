@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>VORSICHT-NUR TEST TEMPLATE!</title>
+    <style>
+        @page {
+            margin-top: 72px;
+            margin-bottom: 60px;
+            margin-right: 95px;
+            margin-left: 95px;
+        }
+        body {
+            margin: 0px;
+            font-family: 'Open Sans', regular;
+            font-size: 10pt;
+        }
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            vertical-align: top;
+            padding: 0px;
+        }
+
+        .absender {
+            font-size: 6pt;
+        }
+
+        table.lines
+        {
+            border-collapse:separate;
+            border-spacing: 0 1em;
+        }
+        @media print {
+            p.anlage {page-break-before: always;}
+        }
+
+    </style>
+</head>
+<body>
+
+<table>
+    <colgroup>
+        <col width="385" />
+    </colgroup>
+
+    <tr>
+        <td height="30">BEARBEITER</td>
+    </tr>
+    <tr>
+        <td height="30">${BEARBEITERANSPRACHE}</td>
+    </tr>
+    <tr>
+        <td height="30">${BEARBEITERTELEFON}</td>
+    </tr>
+    <tr>
+        <td height="30">${BEARBEITEREMAIL}</td>
+    </tr>
+    <tr>
+        <td height="30">${BEARBEITERZEICHEN}</td>
+    </tr>
+
+    <tr>
+        <td height="30">-------------</td>
+    </tr>
+
+    <tr>
+        <td height="30">STEUERPFLICHTIGE</td>
+    </tr>
+    <tr>
+        <td height="30">${STPFLAKONTAKT}</td>
+    </tr>
+    <tr>
+        <td height="30">${STPFLBKONTAKT}</td>
+    </tr>
+
+    <tr>
+        <td height="30">-------------</td>
+    </tr>
+
+    <tr>
+        <td height="30">QUELLE</td>
+    </tr>
+    <tr>
+        <td height="30">${QUELLFINANZAMT}</td>
+    </tr>
+    <tr>
+        <td height="30">${QUELLFINANZAMTADRESSE}</td>
+    </tr>
+    <tr>
+        <td height="30">${QUELLOKRIT}</td>
+    </tr>
+
+    <tr>
+        <td height="30">-------------</td>
+    </tr>
+
+    <tr>
+        <td height="30">ZIEL</td>
+    </tr>
+    <tr>
+        <td height="30">${ZIELFINANZAMT}</td>
+    </tr>
+    <tr>
+        <td height="30">${ZIELSTRASSE}</td>
+    </tr>
+    <tr>
+        <td height="30">${ZIELORT}</td>
+    </tr>
+    <tr>
+        <td height="30">${ZIELOKRIT}</td>
+    </tr>
+
+    <tr>
+        <td height="30">-------------</td>
+    </tr>
+
+    <tr>
+        <td height="30">${ERSTELLUNGSDATUM}</td>
+    </tr>
+
+</table>
+<p>
+    <br />
+    Mit freundlichen Gr??en
+</p>
+<p>
+    Ihre Finanzverwaltung
+</p>
+</body>
+</html>
+

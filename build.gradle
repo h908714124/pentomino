@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+project.sourceCompatibility = '14'
+project.targetCompatibility = '14'
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation 'org.freemarker:freemarker:2.3.30'
+}
+
+test {
+    jvmArgs '-Dfile.encoding=UTF-8'
+    useJUnitPlatform()
+    testLogging {
+        events "failed"
+    }
+}
