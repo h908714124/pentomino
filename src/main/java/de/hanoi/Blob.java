@@ -1,5 +1,8 @@
 package de.hanoi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // shape + rotation + invert
 class Blob {
 
@@ -11,8 +14,8 @@ class Blob {
     Blob(Shape shape, boolean[][] points) {
         this.shape = shape;
         this.points = points;
-        this.width = shape.width;
-        this.height = shape.height;
+        this.width = points[0].length;
+        this.height = points.length;
     }
 
     boolean occupies(int x, int y) {
@@ -27,5 +30,27 @@ class Blob {
 
     Shape getShape() {
         return shape;
+    }
+
+    boolean[][] points() {
+        return points;
+    }
+
+    @Override
+    public String toString() {
+        List<String> result = print();
+        return String.join(System.lineSeparator(), result);
+    }
+
+    List<String> print() {
+        List<String> result = new ArrayList<>();
+        for (boolean[] row : points) {
+            StringBuilder sb = new StringBuilder();
+            for (boolean b : row) {
+                sb.append(b ? "@" : ".");
+            }
+            result.add(sb.toString());
+        }
+        return result;
     }
 }
