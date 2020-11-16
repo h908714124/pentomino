@@ -52,6 +52,10 @@ enum ShapePoint {
         return result;
     }
 
+    ShapePoint invert() {
+        return ShapePoint.of(y, x);
+    }
+
     ShapePoint rotate() {
         return ShapePoint.of(WIDTH - y - 1, x);
     }

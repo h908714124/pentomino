@@ -1,7 +1,6 @@
 package de.hanoi;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -9,53 +8,53 @@ import java.util.List;
 enum Shape {
 
     ROD('R', Collections.singletonList("@@@@@")),
-    ANGLE('A', Arrays.asList(
+    ANGLE('A', List.of(
             "@@@",
             "@  ",
             "@  "
     )),
-    HOOK('H', Arrays.asList(
+    HOOK('H', List.of(
             "@  ",
             "@@@",
             "  @"
     )),
-    LETTER_L('L', Arrays.asList(
+    LETTER_L('L', List.of(
             "@@@@",
             "@   "
     )),
-    BATON('B', Arrays.asList(
+    BATON('B', List.of(
             "@@@@",
             " @  "
     )),
-    LETTER_T('T', Arrays.asList(
+    LETTER_T('T', List.of(
             "@@@",
             " @ ",
             " @ "
     )),
-    LETTER_W('W', Arrays.asList(
+    LETTER_W('W', List.of(
             "@  ",
             "@@ ",
             " @@"
     )),
-    STAR('+', Arrays.asList(
+    STAR('+', List.of(
             " @ ",
             "@@@",
             " @ "
     )),
-    LETTER_C('C', Arrays.asList(
+    LETTER_C('C', List.of(
             "@@@",
             "@ @"
     )),
-    NUMBER_4('4', Arrays.asList(
+    NUMBER_4('4', List.of(
             "@  ",
             "@@@",
             " @ "
     )),
-    SNAKE('S', Arrays.asList(
+    SNAKE('S', List.of(
             "  @@",
             "@@@ "
     )),
-    LETTER_P('P', Arrays.asList(
+    LETTER_P('P', List.of(
             "@@@",
             "@@ "
     ));
@@ -110,24 +109,18 @@ enum Shape {
     }
 
     static List<Blob> getInversions(Blob original) {
-        boolean[][] inverted = invert(original.points());
-        if (Arrays.deepEquals(inverted, original.points())) {
+        EnumSet<ShapePoint> inverted = invert(original.pointSet());
+        if (inverted.equals(original.pointSet())) {
             return Collections.singletonList(original);
         }
-        Blob inversion = Blob.create(original.getShape(), inverted);
-        return Arrays.asList(original, inversion);
-
+        Blob inversion = new Blob(original.getShape(), inverted);
+        return List.of(original, inversion);
     }
 
-    static boolean[][] invert(boolean[][] points) {
-        boolean[][] result = new boolean[points[0].length][];
-        for (int i = 0; i < points[0].length; i++) {
-            result[i] = new boolean[points.length];
-        }
-        for (int y = 0; y < points.length; y++) {
-            for (int x = 0; x < points[y].length; x++) {
-                result[x][y] = points[y][x];
-            }
+    static EnumSet<ShapePoint> invert(EnumSet<ShapePoint> points) {
+        EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
+        for (ShapePoint point : points) {
+            result.add(point.invert());
         }
         return result;
     }

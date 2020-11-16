@@ -15,20 +15,6 @@ class Blob {
         this.points = points;
     }
 
-    static Blob create(Shape shape, boolean[][] points) {
-        EnumSet<ShapePoint> enumPoints = EnumSet.noneOf(ShapePoint.class);
-        for (int y = 0, pointsLength = points.length; y < pointsLength; y++) {
-            boolean[] row = points[y];
-            for (int x = 0, rowLength = row.length; x < rowLength; x++) {
-                boolean b = row[x];
-                if (b) {
-                    enumPoints.add(ShapePoint.of(x, y));
-                }
-            }
-        }
-        return new Blob(shape, enumPoints);
-    }
-
     boolean occupies(int x, int y) {
         for (ShapePoint point : points) {
             if (point.x == x && point.y == y) {
@@ -42,18 +28,7 @@ class Blob {
         return shape;
     }
 
-    boolean[][] points() {
-        boolean[][] result = new boolean[ShapePoint.HEIGHT][];
-        for (int i = 0, resultLength = result.length; i < resultLength; i++) {
-            result[i] = new boolean[ShapePoint.WIDTH];
-        }
-        for (ShapePoint point : this.points) {
-            result[point.y][point.x] = true;
-        }
-        return result;
-    }
-
-    public EnumSet<ShapePoint> pointSet() {
+    EnumSet<ShapePoint> pointSet() {
         return points;
     }
 
@@ -65,10 +40,10 @@ class Blob {
 
     List<String> print() {
         List<String> result = new ArrayList<>();
-        for (boolean[] row : points()) {
+        for (int y = 0; y < ShapePoint.HEIGHT; y++) {
             StringBuilder sb = new StringBuilder();
-            for (boolean b : row) {
-                sb.append(b ? shape.signature() : ".");
+            for (int x = 0; x < ShapePoint.WIDTH; x++) {
+                sb.append(points.contains(ShapePoint.of(x, y)) ? shape.signature() : ".");
             }
             result.add(sb.toString());
         }
