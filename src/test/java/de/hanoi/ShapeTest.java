@@ -1,6 +1,5 @@
 package de.hanoi;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ShapeTest {
@@ -70,7 +70,7 @@ class ShapeTest {
         for (Shape shape : Shape.values()) {
             List<Blob> blobs = shape.getBlobs();
             for (Blob blob : blobs) {
-                Assertions.assertFalse(Shape.contains(test, blob));
+                assertFalse(Shape.contains(test, blob));
                 test.add(blob);
             }
         }

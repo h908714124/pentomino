@@ -1,5 +1,7 @@
 package de.hanoi;
 
+import java.util.EnumSet;
+
 enum Point {
 
     P_0_0(0, 0),
@@ -69,7 +71,7 @@ enum Point {
     static final int WIDTH = 10;
     static final int HEIGHT = 6;
 
-    private static final Point[][] allPoints = allPoints();
+    private static final Point[][] ALL = allPoints();
 
     Point(int y, int x) {
         this.x = x;
@@ -87,7 +89,67 @@ enum Point {
         return result;
     }
 
-    static Point of(int x, int y) {
-        return allPoints[y][x];
+    Point expand(EnumSet<Point> forbidden, EnumSet<Point> alreadyDone) {
+        if (!isLeftEdge()) {
+            Point point = left();
+            if (!forbidden.contains(point) && !alreadyDone.contains(point)) {
+                return point;
+            }
+        }
+        if (!isRightEdge()) {
+            Point point = right();
+            if (!forbidden.contains(point) && !alreadyDone.contains(point)) {
+                return point;
+            }
+        }
+        if (!isTopEdge()) {
+            Point point = up();
+            if (!forbidden.contains(point) && !alreadyDone.contains(point)) {
+                return point;
+            }
+        }
+        if (!isBottomEdge()) {
+            Point point = down();
+            if (!forbidden.contains(point) && !alreadyDone.contains(point)) {
+                return point;
+            }
+        }
+        return null;
+    }
+
+    private boolean isLeftEdge() {
+        return x == 0;
+    }
+
+    private boolean isRightEdge() {
+        return x == 9;
+    }
+
+    private boolean isTopEdge() {
+        return y == 0;
+    }
+
+    private boolean isBottomEdge() {
+        return y == 5;
+    }
+
+    private Point left() {
+        return of(y, x - 1);
+    }
+
+    private Point right() {
+        return of(y, x + 1);
+    }
+
+    private Point up() {
+        return of(y - 1, x);
+    }
+
+    private Point down() {
+        return of(y + 1, x);
+    }
+
+    static Point of(int y, int x) {
+        return ALL[y][x];
     }
 }

@@ -60,25 +60,29 @@ enum Shape {
     ));
 
     private final char signature;
-    private final EnumSet<ShapePoint> points;
     private final List<Blob> blobs;
     final int width;
     final int height;
 
     Shape(char signature, List<String> strings) {
         this.signature = signature;
-        this.points = EnumSet.noneOf(ShapePoint.class);
         this.width = strings.get(0).length();
         this.height = strings.size();
+        EnumSet<ShapePoint> points = createPoints(strings);
+        this.blobs = allBlobs(this, points);
+    }
+
+    private static EnumSet<ShapePoint> createPoints(List<String> strings) {
+        EnumSet<ShapePoint> points = EnumSet.noneOf(ShapePoint.class);
         for (int y = 0, stringsSize = strings.size(); y < stringsSize; y++) {
             String string = strings.get(y);
             for (int x = 0; x < string.length(); x++) {
                 if (!Character.toString(string.charAt(x)).isBlank()) {
-                    points.add(ShapePoint.of(x, y));
+                    points.add(ShapePoint.of(y, x));
                 }
             }
         }
-        this.blobs = allBlobs(this, points);
+        return points;
     }
 
     List<Blob> getBlobs() {
@@ -136,14 +140,14 @@ enum Shape {
     private static EnumSet<ShapePoint> shiftLeft(EnumSet<ShapePoint> points) {
         EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
         for (ShapePoint point : points) {
-            result.add(point.shiftLeft());
+            result.add(point.left());
         }
         return result;
     }
 
     private static boolean canShiftLeft(EnumSet<ShapePoint> points) {
         for (ShapePoint point : points) {
-            if (!point.canShiftLeft()) {
+            if (point.isLeftEdge()) {
                 return false;
             }
         }
@@ -153,7 +157,7 @@ enum Shape {
     private static EnumSet<ShapePoint> shiftUp(EnumSet<ShapePoint> points) {
         EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
         for (ShapePoint point : points) {
-            result.add(point.shiftUp());
+            result.add(point.up());
         }
         return result;
 
@@ -161,7 +165,7 @@ enum Shape {
 
     private static boolean canShiftUp(EnumSet<ShapePoint> points) {
         for (ShapePoint point : points) {
-            if (!point.canShiftUp()) {
+            if (point.isTopEdge()) {
                 return false;
             }
         }
@@ -179,9 +183,5 @@ enum Shape {
 
     char signature() {
         return signature;
-    }
-
-    EnumSet<ShapePoint> points() {
-        return points;
     }
 }

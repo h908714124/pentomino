@@ -21,10 +21,6 @@ class Figure {
         return new Figure(blob.shape(), result);
     }
 
-    boolean occupies(int x, int y) {
-        return points.contains(Point.of(x, y));
-    }
-
     boolean overlaps(Figure other) {
         for (Point point : points) {
             for (Point o : other.points) {
@@ -38,5 +34,9 @@ class Figure {
 
     Shape shape() {
         return shape;
+    }
+
+    EnumSet<Point> points() {
+        return points;
     }
 }

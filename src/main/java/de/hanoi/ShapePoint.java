@@ -34,7 +34,7 @@ enum ShapePoint {
     static final int WIDTH = 5;
     static final int HEIGHT = 5;
 
-    private static final ShapePoint[][] allPoints = allPoints();
+    private static final ShapePoint[][] ALL = allPoints();
 
     ShapePoint(int y, int x) {
         this.x = x;
@@ -53,34 +53,34 @@ enum ShapePoint {
     }
 
     ShapePoint invert() {
-        return ShapePoint.of(y, x);
+        return of(x, y);
     }
 
     ShapePoint rotate() {
-        return ShapePoint.of(WIDTH - y - 1, x);
+        return of(x, WIDTH - y - 1);
     }
 
-    ShapePoint shiftLeft() {
-        return ShapePoint.of(x - 1, y);
+    ShapePoint left() {
+        return of(y, x - 1);
     }
 
-    boolean canShiftLeft() {
-        return x > 0;
+    boolean isLeftEdge() {
+        return x == 0;
     }
 
-    ShapePoint shiftUp() {
-        return ShapePoint.of(x, y - 1);
+    boolean isTopEdge() {
+        return y == 0;
     }
 
-    boolean canShiftUp() {
-        return y > 0;
+    ShapePoint up() {
+        return of(y - 1, x);
     }
 
     Point translate(Point base) {
-        return Point.of(this.x + base.x, this.y + base.y);
+        return Point.of(this.y + base.y, this.x + base.x);
     }
 
-    static ShapePoint of(int x, int y) {
-        return allPoints[y][x];
+    static ShapePoint of(int y, int x) {
+        return ALL[y][x];
     }
 }

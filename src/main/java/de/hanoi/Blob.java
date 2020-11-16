@@ -34,7 +34,7 @@ class Blob {
         for (int y = 0; y < ShapePoint.HEIGHT; y++) {
             StringBuilder sb = new StringBuilder();
             for (int x = 0; x < ShapePoint.WIDTH; x++) {
-                sb.append(points.contains(ShapePoint.of(x, y)) ? shape.signature() : ".");
+                sb.append(!points.contains(ShapePoint.of(y, x)) ? "." : shape.signature());
             }
             result.add(sb.toString());
         }
