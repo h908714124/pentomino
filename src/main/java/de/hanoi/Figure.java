@@ -25,6 +25,17 @@ class Figure {
         return points.contains(Point.of(x, y));
     }
 
+    boolean overlaps(Figure other) {
+        for (Point point : points) {
+            for (Point o : other.points) {
+                if (point == o) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     Shape shape() {
         return shape;
     }

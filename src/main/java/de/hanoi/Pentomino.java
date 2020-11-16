@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Pentomino {
 
-    private final List<Figure> blobs = new ArrayList<>();
+    private final List<Figure> figures = new ArrayList<>();
 
     private Pentomino() {
     }
@@ -27,7 +27,7 @@ public class Pentomino {
     }
 
     char occupied(int x, int y) {
-        for (Figure figure : blobs) {
+        for (Figure figure : figures) {
             if (figure.occupies(x, y)) {
                 return figure.shape().signature();
             }
@@ -36,6 +36,17 @@ public class Pentomino {
     }
 
     void addFigure(Blob blob, int x, int y) {
-        blobs.add(Figure.create(blob, Point.of(x, y)));
+        Figure figure = Figure.create(blob, Point.of(x, y));
+        figures.add(figure);
+    }
+
+    boolean overlaps(Blob blob, int x, int y) {
+        Figure figure = Figure.create(blob, Point.of(x, y));
+        for (Figure f : figures) {
+            if (f.overlaps(figure)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
