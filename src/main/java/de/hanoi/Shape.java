@@ -3,6 +3,7 @@ package de.hanoi;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 enum Shape {
@@ -60,27 +61,28 @@ enum Shape {
     ));
 
     private final char signature;
-    private final boolean[][] points;
+    private final EnumSet<ShapePoint> points;
     private final List<Blob> blobs;
     final int width;
     final int height;
 
     Shape(char signature, List<String> strings) {
         this.signature = signature;
-        this.points = new boolean[strings.size()][];
+        this.points = EnumSet.noneOf(ShapePoint.class);
         this.width = strings.get(0).length();
         this.height = strings.size();
-        for (int i = 0, stringsSize = strings.size(); i < stringsSize; i++) {
-            String string = strings.get(i);
-            points[i] = new boolean[string.length()];
-            for (int j = 0; j < string.length(); j++) {
-                points[i][j] = !Character.toString(string.charAt(j)).isBlank();
+        for (int y = 0, stringsSize = strings.size(); y < stringsSize; y++) {
+            String string = strings.get(y);
+            for (int x = 0; x < string.length(); x++) {
+                if (!Character.toString(string.charAt(x)).isBlank()) {
+                    points.add(ShapePoint.of(x, y));
+                }
             }
         }
         this.blobs = getBlobs(this, points);
     }
 
-    static Blob getBlob(Shape shape, boolean[][] points) {
+    static Blob getBlob(Shape shape, EnumSet<ShapePoint> points) {
         return new Blob(shape, points);
     }
 
@@ -92,12 +94,12 @@ enum Shape {
         return blobs;
     }
 
-    static List<Blob> getBlobs(Shape shape, boolean[][] points) {
+    static List<Blob> getBlobs(Shape shape, EnumSet<ShapePoint> points) {
         List<Blob> result = new ArrayList<>();
         for (Blob variant : getInversions(getBlob(shape, points))) {
             Blob current = variant;
             for (int rot = 0; rot < 4; rot++) {
-                Blob rotated = new Blob(shape, rotate(current.points()));
+                Blob rotated = new Blob(shape, rotate(current.pointSet()));
                 if (!contains(result, rotated)) {
                     result.add(rotated);
                 }
@@ -112,7 +114,7 @@ enum Shape {
         if (Arrays.deepEquals(inverted, original.points())) {
             return Collections.singletonList(original);
         }
-        Blob inversion = new Blob(original.getShape(), inverted);
+        Blob inversion = Blob.create(original.getShape(), inverted);
         return Arrays.asList(original, inversion);
 
     }
@@ -130,22 +132,58 @@ enum Shape {
         return result;
     }
 
-    static boolean[][] rotate(boolean[][] points) {
-        boolean[][] result = new boolean[points[0].length][];
-        for (int i = 0; i < points[0].length; i++) {
-            result[i] = new boolean[points.length];
+    static EnumSet<ShapePoint> rotate(EnumSet<ShapePoint> points) {
+        EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
+        for (ShapePoint point : points) {
+            result.add(point.rotate());
         }
-        for (int y = points.length - 1; y >= 0; y--) {
-            for (int x = 0; x < points[y].length; x++) {
-                result[x][points.length - y - 1] = points[y][x];
-            }
+        while (canShiftLeft(result)) {
+            result = shiftLeft(result);
+        }
+        while (canShiftUp(result)) {
+            result = shiftUp(result);
         }
         return result;
     }
 
+    private static EnumSet<ShapePoint> shiftLeft(EnumSet<ShapePoint> points) {
+        EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
+        for (ShapePoint point : points) {
+            result.add(point.shiftLeft());
+        }
+        return result;
+    }
+
+    private static boolean canShiftLeft(EnumSet<ShapePoint> points) {
+        for (ShapePoint point : points) {
+            if (!point.canShiftLeft()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static EnumSet<ShapePoint> shiftUp(EnumSet<ShapePoint> points) {
+        EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
+        for (ShapePoint point : points) {
+            result.add(point.shiftUp());
+        }
+        return result;
+
+    }
+
+    private static boolean canShiftUp(EnumSet<ShapePoint> points) {
+        for (ShapePoint point : points) {
+            if (!point.canShiftUp()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     static boolean contains(List<Blob> blobs, Blob test) {
         for (Blob blob : blobs) {
-            if (Arrays.deepEquals(blob.points(), test.points())) {
+            if (test.pointSet().equals(blob.pointSet())) {
                 return true;
             }
         }
@@ -156,7 +194,7 @@ enum Shape {
         return signature;
     }
 
-    boolean[][] points() {
+    EnumSet<ShapePoint> points() {
         return points;
     }
 }

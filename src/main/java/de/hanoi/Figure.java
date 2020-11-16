@@ -4,15 +4,15 @@ package de.hanoi;
 class Figure {
 
     private final Blob blob;
-    private final Point point;
+    private final Point base;
 
-    Figure(Blob blob, Point point) {
+    Figure(Blob blob, Point base) {
         this.blob = blob;
-        this.point = point;
+        this.base = base;
     }
 
     boolean occupies(int x, int y) {
-        return blob.occupies(x - this.point.x, y - this.point.y);
+        return blob.occupies(x - this.base.x, y - this.base.y);
     }
 
     Blob getBlob() {

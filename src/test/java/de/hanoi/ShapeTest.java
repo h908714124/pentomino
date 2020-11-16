@@ -22,20 +22,24 @@ class ShapeTest {
 
     @Test
     void testInvert() {
-        boolean[][] points = Shape.invert(Shape.LETTER_P.points());
-        assertEquals(3, points.length);
-        assertArrayEquals(new boolean[]{true, true}, points[0]);
-        assertArrayEquals(new boolean[]{true, true}, points[1]);
-        assertArrayEquals(new boolean[]{true, false}, points[2]);
+        boolean[][] points = Shape.invert(Shape.LETTER_P.getBlob().points());
+        assertEquals(5, points.length);
+        assertArrayEquals(new boolean[]{true, true, false, false, false}, points[0]);
+        assertArrayEquals(new boolean[]{true, true, false, false, false}, points[1]);
+        assertArrayEquals(new boolean[]{true, false, false, false, false}, points[2]);
+        assertArrayEquals(new boolean[]{false, false, false, false, false}, points[3]);
+        assertArrayEquals(new boolean[]{false, false, false, false, false}, points[4]);
     }
 
     @Test
     void testRotate() {
-        boolean[][] points = Shape.rotate(Shape.LETTER_P.points());
-        assertEquals(3, points.length);
-        assertArrayEquals(new boolean[]{true, true}, points[0]);
-        assertArrayEquals(new boolean[]{true, true}, points[1]);
-        assertArrayEquals(new boolean[]{false, true}, points[2]);
+        boolean[][] points = new Blob(Shape.LETTER_P, Shape.rotate(Shape.LETTER_P.points())).points();
+        assertEquals(5, points.length);
+        assertArrayEquals(new boolean[]{true, true, false, false, false}, points[0]);
+        assertArrayEquals(new boolean[]{true, true, false, false, false}, points[1]);
+        assertArrayEquals(new boolean[]{false, true, false, false, false}, points[2]);
+        assertArrayEquals(new boolean[]{false, false, false, false, false}, points[3]);
+        assertArrayEquals(new boolean[]{false, false, false, false, false}, points[4]);
     }
 
     @Test
