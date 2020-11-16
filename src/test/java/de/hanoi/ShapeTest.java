@@ -22,13 +22,14 @@ class ShapeTest {
 
     @Test
     void testInvert() {
-        EnumSet<ShapePoint> inverted = Shape.invert(Shape.LETTER_P.getBlob().pointSet());
+        EnumSet<ShapePoint> p = Shape.LETTER_P.getBlobs().get(0).points();
+        EnumSet<ShapePoint> inverted = Shape.invert(p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_0_2,
                 ShapePoint.P_1_0,
-                ShapePoint.P_1_1), Shape.LETTER_P.points());
+                ShapePoint.P_1_1), p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
@@ -39,13 +40,14 @@ class ShapeTest {
 
     @Test
     void testRotate() {
-        EnumSet<ShapePoint> rotated = Shape.rotate(Shape.LETTER_P.getBlob().pointSet());
+        EnumSet<ShapePoint> p = Shape.LETTER_P.getBlobs().get(0).points();
+        EnumSet<ShapePoint> rotated = Shape.rotate(p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_0_2,
                 ShapePoint.P_1_0,
-                ShapePoint.P_1_1), Shape.LETTER_P.points());
+                ShapePoint.P_1_1), p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
@@ -79,7 +81,7 @@ class ShapeTest {
         for (Shape shape : Shape.values()) {
             List<Blob> blobs = shape.getBlobs();
             for (Blob blob : blobs) {
-                assertEquals(5, blob.pointSet().size());
+                assertEquals(5, blob.points().size());
             }
         }
     }

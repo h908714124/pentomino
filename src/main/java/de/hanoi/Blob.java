@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-// shape + rotation + invert
+// oriented shape
 class Blob {
 
     private final Shape shape;
@@ -15,20 +15,11 @@ class Blob {
         this.points = points;
     }
 
-    boolean occupies(int x, int y) {
-        for (ShapePoint point : points) {
-            if (point.x == x && point.y == y) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    Shape getShape() {
+    Shape shape() {
         return shape;
     }
 
-    EnumSet<ShapePoint> pointSet() {
+    EnumSet<ShapePoint> points() {
         return points;
     }
 

@@ -29,13 +29,13 @@ public class Pentomino {
     char occupied(int x, int y) {
         for (Figure figure : blobs) {
             if (figure.occupies(x, y)) {
-                return figure.getBlob().getShape().signature();
+                return figure.shape().signature();
             }
         }
         return '.';
     }
 
     void addFigure(Blob blob, int x, int y) {
-        blobs.add(new Figure(blob, Point.of(x, y)));
+        blobs.add(Figure.create(blob, Point.of(x, y)));
     }
 }

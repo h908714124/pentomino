@@ -1,21 +1,31 @@
 package de.hanoi;
 
-// blob + position
+import java.util.EnumSet;
+
+// blob + base
 class Figure {
 
-    private final Blob blob;
-    private final Point base;
+    private final Shape shape;
+    private final EnumSet<Point> points;
 
-    Figure(Blob blob, Point base) {
-        this.blob = blob;
-        this.base = base;
+    Figure(Shape shape, EnumSet<Point> points) {
+        this.shape = shape;
+        this.points = points;
+    }
+
+    static Figure create(Blob blob, Point base) {
+        EnumSet<Point> result = EnumSet.noneOf(Point.class);
+        for (ShapePoint point : blob.points()) {
+            result.add(point.translate(base));
+        }
+        return new Figure(blob.shape(), result);
     }
 
     boolean occupies(int x, int y) {
-        return blob.occupies(x - this.base.x, y - this.base.y);
+        return points.contains(Point.of(x, y));
     }
 
-    Blob getBlob() {
-        return blob;
+    Shape shape() {
+        return shape;
     }
 }

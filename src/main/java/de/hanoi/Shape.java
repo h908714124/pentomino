@@ -78,27 +78,21 @@ enum Shape {
                 }
             }
         }
-        this.blobs = getBlobs(this, points);
-    }
-
-    static Blob getBlob(Shape shape, EnumSet<ShapePoint> points) {
-        return new Blob(shape, points);
-    }
-
-    Blob getBlob() {
-        return new Blob(this, points);
+        this.blobs = allBlobs(this, points);
     }
 
     List<Blob> getBlobs() {
         return blobs;
     }
 
-    static List<Blob> getBlobs(Shape shape, EnumSet<ShapePoint> points) {
+    private static List<Blob> allBlobs(Shape shape, EnumSet<ShapePoint> points) {
+        Blob original = new Blob(shape, points);
         List<Blob> result = new ArrayList<>();
-        for (Blob variant : getInversions(getBlob(shape, points))) {
+        result.add(original);
+        for (Blob variant : getInversions(original)) {
             Blob current = variant;
             for (int rot = 0; rot < 4; rot++) {
-                Blob rotated = new Blob(shape, rotate(current.pointSet()));
+                Blob rotated = new Blob(shape, rotate(current.points()));
                 if (!contains(result, rotated)) {
                     result.add(rotated);
                 }
@@ -109,11 +103,11 @@ enum Shape {
     }
 
     static List<Blob> getInversions(Blob original) {
-        EnumSet<ShapePoint> inverted = invert(original.pointSet());
-        if (inverted.equals(original.pointSet())) {
+        EnumSet<ShapePoint> inverted = invert(original.points());
+        if (inverted.equals(original.points())) {
             return Collections.singletonList(original);
         }
-        Blob inversion = new Blob(original.getShape(), inverted);
+        Blob inversion = new Blob(original.shape(), inverted);
         return List.of(original, inversion);
     }
 
@@ -176,7 +170,7 @@ enum Shape {
 
     static boolean contains(List<Blob> blobs, Blob test) {
         for (Blob blob : blobs) {
-            if (test.pointSet().equals(blob.pointSet())) {
+            if (test.points().equals(blob.points())) {
                 return true;
             }
         }

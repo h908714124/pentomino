@@ -76,6 +76,10 @@ enum ShapePoint {
         return y > 0;
     }
 
+    Point translate(Point base) {
+        return Point.of(this.x + base.x, this.y + base.y);
+    }
+
     static ShapePoint of(int x, int y) {
         return allPoints[y][x];
     }
