@@ -96,7 +96,7 @@ enum Shape {
         for (Blob variant : getInversions(original)) {
             Blob current = variant;
             for (int rot = 0; rot < 4; rot++) {
-                Blob rotated = new Blob(shape, rotate(current.points()));
+                Blob rotated = rotate(current);
                 if (!contains(result, rotated)) {
                     result.add(rotated);
                 }
@@ -107,25 +107,24 @@ enum Shape {
     }
 
     static List<Blob> getInversions(Blob original) {
-        EnumSet<ShapePoint> inverted = invert(original.points());
-        if (inverted.equals(original.points())) {
+        Blob inverted = invert(original);
+        if (inverted.points().equals(original.points())) {
             return Collections.singletonList(original);
         }
-        Blob inversion = new Blob(original.shape(), inverted);
-        return List.of(original, inversion);
+        return List.of(original, inverted);
     }
 
-    static EnumSet<ShapePoint> invert(EnumSet<ShapePoint> points) {
+    static Blob invert(Blob blob) {
         EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
-        for (ShapePoint point : points) {
+        for (ShapePoint point : blob.points()) {
             result.add(point.invert());
         }
-        return result;
+        return new Blob(blob.shape(), result);
     }
 
-    static EnumSet<ShapePoint> rotate(EnumSet<ShapePoint> points) {
+    static Blob rotate(Blob blob) {
         EnumSet<ShapePoint> result = EnumSet.noneOf(ShapePoint.class);
-        for (ShapePoint point : points) {
+        for (ShapePoint point : blob.points()) {
             result.add(point.rotate());
         }
         while (canShiftLeft(result)) {
@@ -134,7 +133,7 @@ enum Shape {
         while (canShiftUp(result)) {
             result = shiftUp(result);
         }
-        return result;
+        return new Blob(blob.shape(), result);
     }
 
     private static EnumSet<ShapePoint> shiftLeft(EnumSet<ShapePoint> points) {

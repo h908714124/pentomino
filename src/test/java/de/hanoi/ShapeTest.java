@@ -22,38 +22,38 @@ class ShapeTest {
 
     @Test
     void testInvert() {
-        EnumSet<ShapePoint> p = Shape.LETTER_P.getBlobs().get(0).points();
-        EnumSet<ShapePoint> inverted = Shape.invert(p);
+        Blob p = Shape.LETTER_P.getBlobs().get(0);
+        Blob inverted = Shape.invert(p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_0_2,
                 ShapePoint.P_1_0,
-                ShapePoint.P_1_1), p);
+                ShapePoint.P_1_1), p.points());
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_1_0,
                 ShapePoint.P_1_1,
-                ShapePoint.P_2_0), inverted);
+                ShapePoint.P_2_0), inverted.points());
     }
 
     @Test
     void testRotate() {
-        EnumSet<ShapePoint> p = Shape.LETTER_P.getBlobs().get(0).points();
-        EnumSet<ShapePoint> rotated = Shape.rotate(p);
+        Blob p = Shape.LETTER_P.getBlobs().get(0);
+        Blob rotated = Shape.rotate(p);
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_0_2,
                 ShapePoint.P_1_0,
-                ShapePoint.P_1_1), p);
+                ShapePoint.P_1_1), p.points());
         assertEquals(EnumSet.of(
                 ShapePoint.P_0_0,
                 ShapePoint.P_0_1,
                 ShapePoint.P_1_0,
                 ShapePoint.P_1_1,
-                ShapePoint.P_2_1), rotated);
+                ShapePoint.P_2_1), rotated.points());
     }
 
     @Test

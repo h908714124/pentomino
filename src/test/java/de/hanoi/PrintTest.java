@@ -3,8 +3,6 @@ package de.hanoi;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 class PrintTest {
 
     private final Pentomino board = Pentomino.create();
@@ -13,10 +11,7 @@ class PrintTest {
     @Disabled
     void testPrint() {
         board.addFigure(Shape.ANGLE.getBlobs().get(0), Point.P_0_1);
-        List<String> strings = board.print();
-        for (String string : strings) {
-            System.out.println(string);
-        }
+        System.out.println(board);
     }
 
     @Test

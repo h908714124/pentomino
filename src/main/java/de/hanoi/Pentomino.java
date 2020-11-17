@@ -6,7 +6,15 @@ import java.util.List;
 
 public class Pentomino {
 
+    private static final EnumSet<Point> EMPTY_SET = EnumSet.noneOf(Point.class);
+
     private final List<Figure> figures = new ArrayList<>();
+    private final EnumSet<Point> occupiedArea = EnumSet.noneOf(Point.class);
+
+    private final EnumSet<Point> hull = EnumSet.noneOf(Point.class);
+    private final EnumSet<Point> hullDead = EnumSet.noneOf(Point.class);
+    private final EnumSet<Point> connected = EnumSet.noneOf(Point.class);
+    private final EnumSet<Point> connectedDead = EnumSet.noneOf(Point.class);
 
     private Pentomino() {
     }
@@ -36,41 +44,68 @@ public class Pentomino {
         return '.';
     }
 
-    void addFigure(Blob blob, Point point) {
+    Figure addFigure(Blob blob, Point point) {
         Figure figure = Figure.create(blob, point);
         figures.add(figure);
+        updateOccupiedArea();
+        return figure;
     }
 
-    EnumSet<Point> findConnectedArea(Point seed) {
-        EnumSet<Point> dead = EnumSet.noneOf(Point.class);
-        EnumSet<Point> forbidden = occupiedArea();
-        EnumSet<Point> result = EnumSet.of(seed);
+    EnumSet<Point> hull(Figure figure) {
+        hull.clear();
+        hullDead.clear();
         while (true) {
-            int size = result.size();
-            for (Point point : result) {
-                if (dead.contains(point)) {
+            int size = hull.size();
+            for (Point point : figure.points()) {
+                if (hullDead.contains(point)) {
                     continue;
                 }
-                Point free = point.expand(forbidden, result);
+                Point free = point.expand(occupiedArea, hull);
                 if (free == null) {
-                    dead.add(point);
+                    hullDead.add(point);
                 } else {
-                    result.add(free);
+                    hull.add(free);
                 }
             }
-            if (result.size() == size) {
+            if (hull.size() == size) {
                 break;
             }
         }
-        return result;
+        return hull;
     }
 
-    EnumSet<Point> occupiedArea() {
-        EnumSet<Point> result = EnumSet.noneOf(Point.class);
-        for (Figure figure : figures) {
-            result.addAll(figure.points());
+    EnumSet<Point> findConnectedArea(Point seed) {
+        if (occupiedArea.contains(seed)) {
+            return EMPTY_SET;
         }
-        return result;
+        connectedDead.clear();
+        connected.clear();
+        connected.add(seed);
+        while (true) {
+            int size = connected.size();
+            for (Point point : connected) {
+                if (connectedDead.contains(point)) {
+                    continue;
+                }
+                Point free = point.expand(occupiedArea, connected);
+                if (free == null) {
+                    connectedDead.add(point);
+                } else {
+                    connected.add(free);
+                }
+            }
+            if (connected.size() == size) {
+                break;
+            }
+        }
+        return connected;
+    }
+
+    void updateOccupiedArea() {
+        occupiedArea.clear();
+        for (Figure figure : figures) {
+            occupiedArea.addAll(figure.points());
+        }
     }
 
     boolean overlaps(Blob blob, Point point) {
@@ -81,5 +116,11 @@ public class Pentomino {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        List<String> result = print();
+        return String.join(System.lineSeparator(), result);
     }
 }
